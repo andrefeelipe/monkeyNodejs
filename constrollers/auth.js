@@ -20,6 +20,10 @@ function register(req, res) {
         res.status(400).send({ msg: "Erro ao cadastrar o usuário."})
         console.log(error)
     })
+
+    function login(req, res) {
+        console.log
+    }
 }
 
 export const AuthController = {
