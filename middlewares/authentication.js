@@ -1,11 +1,11 @@
 import { jwt } from '../utils/index.js'
 
 function asureAuth(req, res, next) {
-    if (!res.headers.authorization) {
+    if (!req.headers.authorization) {
         return res.status(403).send({ message: "Vocês não tem autorização para acessar a aplicação!"})
     }
 
-    const token = req.headers.authorization.replace("Barer ", "")
+    const token = req.headers.authorization.replace("Baerer ", "")
 
     try {
         const hasExpired = jwt.hasExpiredToken(token)
