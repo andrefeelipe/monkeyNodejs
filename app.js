@@ -2,7 +2,7 @@ import cors from 'cors'
 import morgan from 'morgan'
 import express from 'express'
 import bodyParser from 'body-parser'
-import { userRoutes } from './routes/index.js'
+import { authRoutes, userRoutes } from './routes/index.js'
 
 const app = express()
 
@@ -20,6 +20,7 @@ app.use(cors())
 app.use(morgan('dev'))
 
 //Configuração de rotas
+app.use('/api/v1', authRoutes)
 app.use('/api/v1', userRoutes)
 
 export { app }
