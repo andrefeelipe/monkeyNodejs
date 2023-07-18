@@ -1,4 +1,5 @@
 import { User } from '../models/index.js'
+import { getFilePath } from '../utils/index.js'
 
 async function getMe(req, res) {
     const { user_id } = req.user
@@ -47,8 +48,30 @@ async function getUserById(req, res) {
     }
 }
 
+async function updateUser(req, res) {
+    const { user_id } = req.user
+    const userData = req.body
+
+    if (req.files.avatar) {
+        const imagePath = getFilePath(req.files.avatar)
+        userData.avatar = imagePath
+    }
+
+    User.findByIdAndUpdate({ _id: user_id}, userData, { new: true })
+    .then((userUpdated) => {
+        if (!userUpdated) {
+            return res.status(400).send({ msg: 'Erro ao atualizar o usuário!'})
+        } else {
+            return res.status(200).send(userUpdated)
+        }
+    }).catch((error) => {
+        res.status(500).send({ msg: 'Erro de servidor!'})
+    })
+}
+
 export const UserController = {
     getMe,
     getAllUsers,
     getUserById,
+    updateUser,
 }
