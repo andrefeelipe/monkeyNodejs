@@ -16,6 +16,22 @@ async function getMe(req, res) {
     }
 }
 
+async function getAllUsers(req, res) {
+    try {
+        const { user_id } = req.user
+        const response = await User.find({ _id: { $ne: user_id } }).select(["-password", "-__v"])
+
+        if (!response) {
+            return res.status(400).send({ msg: 'Nenhum usuário encontrado!'})
+        } else {
+            return res.status(200).send(response)
+        }
+    } catch (error) {
+        return res.status(500).send({ msg: 'Erro de servidor!'})
+    }
+}
+
 export const UserController = {
     getMe,
+    getAllUsers,
 }
