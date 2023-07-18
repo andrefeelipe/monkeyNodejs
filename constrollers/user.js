@@ -31,7 +31,24 @@ async function getAllUsers(req, res) {
     }
 }
 
+async function getUserById(req, res) {
+    const { id } = req.params
+
+    try {
+        const response = await User.findById(id).select(["-password", "-__v"])
+
+        if (!response) {
+            return res.status(400).send({ msg: 'Nenhum usuário encontrado!'})
+        } else {
+            return res.status(200).send(response)
+        }
+    } catch (error) {
+        return res.status(500).send({ msg: 'Erro de servidor!'})
+    }
+}
+
 export const UserController = {
     getMe,
     getAllUsers,
+    getUserById,
 }
