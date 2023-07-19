@@ -19,7 +19,6 @@ function register(req, res) {
     })
     .catch((error) => {
         res.status(400).send({ mgs: "Erro ao cadastrar usuário"})
-        console.log(error)
     })
 }
 
